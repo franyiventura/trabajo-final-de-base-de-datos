@@ -1,0 +1,59 @@
+#crear base de datos 
+CREATE DATABASE IF NOT exists base_peliculas;
+
+#selecionar la base de datos 
+USE base_peliculas;
+
+
+#creamos las tablas sin relacion 
+
+CREATE TABLE IF NOT EXISTS peliculas(
+  id_peliculas INT NOT NULL,
+  titulos VARCHAR(45) NOT NULL,
+  enlo DATE,
+  nacionalidad VARCHAR(20),
+  idioma VARCHAR(120),
+  formato ENUM("BLANCO Y NEGO", "COLOR"),
+  descripcion VARCHAR(120),
+  resumen VARCHAR(255),
+  observaciones VARCHAR(255),
+  PRIMARY KEY(id_peliculas)
+)ENGINE=INNODB;
+
+
+
+CREATE TABLE IF NOT EXISTS actores(
+   id_actor INT NOT NULL,
+   nombre VARCHAR(45) NOT NULL,
+    nacionalidad VARCHAR(45),
+nombre_personaje VARCHAR(45),
+PRIMARY KEY(id_actor)
+)ENGINE=INNODB;
+
+
+
+CREATE TABLE IF NOT EXISTS directores(
+   id_director INT NOT NULL,
+   nombre VARCHAR(120) NOT NULL,
+   fecha_nacimiento DATE,
+   pais_origen VARCHAR(120),
+   PRIMARY KEY(id_director),
+   peliculas_id_peliculas INT NOT NULL,
+   CONSTRAINT fkdirector_peliculas 
+   FOREIGN KEY(peliculas_id_peliculas)
+   REFERENCES peliculas(ide_peliculas)
+ )ENGINE=INNODB;  
+ 
+CREATE TABLE IF NOT EXISTS actores_peliculas(
+     peliculas_id_peliculas INT NOT NULL,
+     actores_id_actor INT NOT NULL,
+     PRIMARY KEY(peliculas_id_peliculas, actores_id_actor),
+     CONSTRAINT fkactor_peliculas_actor
+     FOREIGN KEY (actores_id_actor)
+     REFERENCES actores(id_actor),
+     PRIMARY KEY(peliculas_id_peliculas, actores_id_actor),
+     CONSTRAINT fkactor_actor_peliculas
+     FOREIGN KEY (peliculas_id_peliculas)
+     REFERENCES peliculas(id_peliculas)
+  )ENGINE=INNODB;   
+  
